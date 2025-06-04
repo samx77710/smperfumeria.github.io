@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carrito | Essentia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal {
+      background-color: #1a1a1a;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.08);
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      animation: slideUp 0.4s ease forwards;
+    }
+
+    @keyframes slideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .cart-items {
+      margin-bottom: 1.5rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #262626;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: 600;
+    }
+
+    .item-price {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      background: #1f1f1f;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #333;
+    }
+
+    .quantity-controls button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      padding: 0.3rem 0.8rem;
+      cursor: pointer;
+    }
+
+    .quantity-controls span {
+      padding: 0 1rem;
+      font-weight: 500;
+    }
+
+    .cart-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .checkout-btn {
+      background-color: #00b894;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .checkout-btn:hover {
+      background-color: #019270;
+    }
+
+    .empty {
+      text-align: center;
+      opacity: 0.6;
+    }
+
+    .back-arrow {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+      user-select: none;
+      transition: color 0.3s ease;
+      z-index: 20;
+    }
+
+    .back-arrow:hover {
+      color: #00b894;
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+
+  <div class="modal-overlay" id="cartModal">
+    <div class="modal">
+      <a href="index.html" class="back-arrow" title="Volver al inicio">&#8592;</a>
+      <h1>Carrito de Compras</h1>
+      <div id="cartItems" class="cart-items">
+        <p class="empty">Tu carrito está vacío.</p>
+      </div>
+      <div class="cart-footer">
+        <p>Total: <span id="totalPrice">$0</span></p>
+        <button class="checkout-btn" id="goToCheckout">Proceder al Pago</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal contacto con flecha de regreso -->
+  <div id="contactModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; backdrop-filter:blur(5px); background-color:rgba(0,0,0,0.6); z-index:10000; justify-content:center; align-items:center;">
+    <div class="modal" style="max-width:400px;">
+      <a class="back-arrow" onclick="document.getElementById('contactModal').style.display='none';" title="Volver">&#8592;</a>
+      <h2 style="margin-bottom:1rem;">Finalizar Pedido</h2>
+      <input id="nombreCliente" type="text" placeholder="Nombre completo" style="width:100%; margin-bottom:1rem; padding:0.6rem; border-radius:6px; border:none;"/>
+      <input id="numeroCliente" type="text" placeholder="Número de contacto" style="width:100%; margin-bottom:1rem; padding:0.6rem; border-radius:6px; border:none;"/>
+      <input id="correoCliente" type="email" placeholder="Correo electrónico" style="width:100%; margin-bottom:1.5rem; padding:0.6rem; border-radius:6px; border:none;"/>
+      <button onclick="enviarPedido()" style="background-color:#00b894; padding:0.7rem 1.5rem; border:none; border-radius:6px; color:white; font-weight:600; cursor:pointer;">Enviar pedido</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5 },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2, direction: "none", out_mode: "out" }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" } },
+        modes: { grab: { distance: 140, line_linked: { opacity: 1 } }, push: { particles_nb: 4 } }
+      },
+      retina_detect: true
+    });
+
+    let cartItems = JSON.parse(localStorage.getItem("carrito")) || [];
+    const cartContainer = document.getElementById("cartItems");
+    const totalPriceEl = document.getElementById("totalPrice");
+
+    cartItems.forEach(item => {
+      if (!item.cantidad) item.cantidad = 1;
+    });
+
+    function saveCart() {
+      localStorage.setItem("carrito", JSON.stringify(cartItems));
+    }
+
+    function renderCart() {
+      cartContainer.innerHTML = "";
+      let total = 0;
+
+      if (cartItems.length === 0) {
+        cartContainer.innerHTML = '<p class="empty">Tu carrito está vacío.</p>';
+        totalPriceEl.textContent = "$0";
+        return;
+      }
+
+      cartItems.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <div class="item-info">
+            <div class="item-name">${item.nombre}</div>
+            <div class="item-price">$${item.precio} x ${item.cantidad}</div>
+          </div>
+          <div class="quantity-controls">
+            <button data-action="decrease" data-index="${index}">−</button>
+            <span>${item.cantidad}</span>
+            <button data-action="increase" data-index="${index}">+</button>
+          </div>
+        `;
+        cartContainer.appendChild(div);
+        total += item.precio * item.cantidad;
+      });
+
+      totalPriceEl.textContent = `$${total}`;
+
+      document.querySelectorAll(".quantity-controls button").forEach(button => {
+        button.addEventListener("click", e => {
+          const action = e.target.getAttribute("data-action");
+          const index = parseInt(e.target.getAttribute("data-index"));
+
+          if (action === "increase") {
+            cartItems[index].cantidad++;
+          } else if (action === "decrease") {
+            cartItems[index].cantidad--;
+            if (cartItems[index].cantidad < 1) {
+              cartItems.splice(index, 1);
+            }
+          }
+          saveCart();
+          renderCart();
+        });
+      });
+    }
+
+    renderCart();
+
+    document.getElementById("goToCheckout").addEventListener("click", () => {
+      if (cartItems.length === 0) {
+        return;
+      }
+      document.getElementById('contactModal').style.display = 'flex';
+    });
+
+    function enviarPedido() {
+      const nombre = document.getElementById("nombreCliente").value.trim();
+      const numero = document.getElementById("numeroCliente").value.trim();
+      const correo = document.getElementById("correoCliente").value.trim();
+
+      if (!nombre || !numero || !correo) return;
+
+      let mensaje = `Hola! Me gustaría realizar el siguiente pedido:\n\n`;
+      cartItems.forEach(item => {
+        mensaje += `• ${item.nombre} x${item.cantidad} - $${item.precio * item.cantidad}\n`;
+      });
+
+      const total = cartItems.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+      mensaje += `\nTotal: $${total}\n\n`;
+      mensaje += `Nombre: ${nombre}\nContacto: ${numero}\nCorreo: ${correo}`;
+
+      const url = `https://wa.me/+573226093587?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+      document.getElementById('contactModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
