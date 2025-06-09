@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PERFUMES ÁRABES | SM Perfumeria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --card: #181818;
+      --text: #fff;
+      --accent: #fff;
+      --shadow: 0 4px 24px rgba(255,255,255,0.07);
+      --border: #222;
+      --hover: #fff;
+      --price: #fff;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+      overflow-x: hidden;
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1rem 2rem 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 2.5rem;
+      letter-spacing: 1px;
+      color: var(--text);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.18);
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 0.7s cubic-bezier(.39,.575,.56,1) 0.1s both;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      width: 100%;
+      margin: 0 auto;
+      animation: fadeInUp 0.7s cubic-bezier(.39,.575,.56,1) 0.2s both;
+    }
+
+    @media (min-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+    }
+    @media (min-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2.2rem;
+      }
+    }
+
+    .item-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: var(--text);
+      padding: 1.5rem 1rem 1.2rem 1rem;
+      border: 1.5px solid var(--border);
+      transition: box-shadow 0.22s, border 0.22s, transform 0.18s;
+      position: relative;
+      min-height: 320px;
+      animation: fadeInUp 0.7s cubic-bezier(.39,.575,.56,1) both;
+    }
+    .item-link:hover, .item-link:focus {
+      box-shadow: 0 8px 32px rgba(255,255,255,0.13);
+      border: 1.5px solid var(--hover);
+      transform: translateY(-6px) scale(1.025);
+      outline: none;
+    }
+
+    .item-link img {
+      width: 100%;
+      max-width: 180px;
+      max-height: 180px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #111;
+      margin-bottom: 1.1rem;
+      box-shadow: 0 2px 12px rgba(255,255,255,0.05);
+      transition: box-shadow 0.2s;
+    }
+
+    .item-link h2 {
+      font-size: 1.08rem;
+      font-weight: 600;
+      margin: 0 0 0.7rem 0;
+      text-align: center;
+      color: var(--text);
+      letter-spacing: 0.2px;
+    }
+
+    .item-link .precio {
+      font-weight: 700;
+      font-size: 1.08rem;
+      color: var(--price);
+      background: rgba(255,255,255,0.07);
+      border-radius: 7px;
+      padding: 0.4em 1.1em;
+      margin-top: 0.2em;
+      text-align: center;
+      letter-spacing: 0.5px;
+      box-shadow: 0 1px 6px rgba(255,255,255,0.04);
+    }
+
+    /* Animación fadeInUp */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive: más aire en móvil */
+    @media (max-width: 500px) {
+      .container {
+        padding: 1.2rem 0.3rem 1.5rem 0.3rem;
+      }
+      h1 {
+        font-size: 1.3rem;
+        margin-bottom: 1.3rem;
+      }
+      .item-link {
+        padding: 1.1rem 0.5rem 1rem 0.5rem;
+        min-height: 220px;
+      }
+      .item-link img {
+        max-width: 120px;
+        max-height: 120px;
+      }
+      .item-link h2 {
+        font-size: 0.98rem;
+      }
+      .item-link .precio {
+        font-size: 0.97rem;
+        padding: 0.3em 0.7em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div class="container">
+    <h1>PERFUMES ÁRABES</h1>
+    <div class="grid">
+      <a href="mandarinsky.html" class="item-link">
+        <img src="assets/mandarinsky.png" alt="Mandarin Sky de Armaf" />
+        <h2>Mandarin Sky</h2>
+        <div class="precio">$95.000</div>
+      </a>
+      <a href="yaratous.html" class="item-link">
+        <img src="assets/yaratous.png" alt="Yara Tous de Lattafa" />
+        <h2>Yara Tous de Lattafa</h2>
+        <div class="precio">$90.000</div>
+      </a>
+      <a href="honorandglory.html" class="item-link">
+        <img src="assets/honorandglory.png" alt="Honor and Glory de Lattafa" />
+        <h2>Honor and Glory de Lattafa</h2>
+        <div class="precio">$80.000</div>
+      </a>
+      <a href="erbapura.html" class="item-link">
+        <img src="assets/erbapura.png" alt="Erba Pura de Xerjoff" />
+        <h2>Erba Pura de Xerjoff</h2>
+        <div class="precio">$135.000</div>
+      </a>
+      <a href="producto-thematcha26.html" class="item-link">
+        <img src="assets/thématcha36.png" alt="Thé Matcha 26 de LE LABO" />
+        <h2>Thé Matcha 26 de LE LABO</h2>
+        <div class="precio">$65.000</div>
+      </a>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS('particles-js', {
+      "particles": {
+        "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#ffffff" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.5 },
+        "size": { "value": 3, "random": true },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "grab" },
+          "onclick": { "enable": true, "mode": "push" },
+          "resize": true
+        },
+        "modes": {
+          "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
+          "push": { "particles_nb": 4 }
+        }
+      },
+      "retina_detect": true
+    });
+  </script>
+</body>
+</html>
